@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const sectionTop = current.offsetTop - 150;
       const sectionId = current.getAttribute("id");
       const targetLink = document.querySelector(
-        `.nav-menu a[href*='${sectionId}']`,
+        `.nav-menu a[href*='${sectionId}']`
       );
 
       if (targetLink && !targetLink.classList.contains("nav-btn")) {
@@ -56,4 +56,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("scroll", scrollActive);
+
+  // İletişim Formu Gönderimi (FormSubmit API)
+  const contactForm = document.getElementById("contact-form");
+  const submitBtn = document.getElementById("submit-btn");
+
+  if (contactForm && submitBtn) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const originalText = submitBtn.textContent;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Gönderiliyor...";
+
+      const formData = new FormData(contactForm);
+
+      try {
+        const response = await fetch(
+          "https://formsubmit.co/ajax/fegokce@outlook.com",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+            },
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          submitBtn.textContent = "Mesajınız Başarıyla İletildi! ✓";
+          submitBtn.style.background = "#10b981";
+          contactForm.reset();
+
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            submitBtn.style.background = "";
+          }, 4000);
+        } else {
+          throw new Error("Form iletim hatası");
+        }
+      } catch (error) {
+        submitBtn.textContent = "Hata Oluştu, Tekrar Deneyin!";
+        submitBtn.style.background = "#ef4444";
+
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.background = "";
+        }, 4000);
+      }
+    });
+  }
 });
