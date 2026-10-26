@@ -572,20 +572,29 @@
             </div>
           </div>
 
-          <form
-            class="contact-form"
-            onsubmit="
-              event.preventDefault();
-              alert(
-                'Mesajınız için teşekkürler! (Form mailto/backend entegrasyonuna hazırdır)',
-              );
-            "
-          >
+          <!-- İletişim Formu -->
+          <form class="contact-form" id="contact-form">
+            <!-- Form Ayarları & Bot Koruması -->
+            <input type="hidden" name="_captcha" value="false" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="Portfolyo Web Sitesinden Yeni Mesaj!"
+            />
+            <input
+              type="text"
+              name="_honey"
+              style="display: none"
+              tabindex="-1"
+              autocomplete="off"
+            />
+
             <div class="form-group">
               <label for="name">Adınız Soyadınız</label>
               <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Örn: Ahmet Yılmaz"
                 required
               />
@@ -595,6 +604,7 @@
               <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="ahmet@example.com"
                 required
               />
@@ -603,12 +613,17 @@
               <label for="message">Mesajınız</label>
               <textarea
                 id="message"
+                name="message"
                 rows="4"
                 placeholder="Konu ve mesajınızı yazın..."
                 required
               ></textarea>
             </div>
-            <button type="submit" class="btn btn-primary full-width">
+            <button
+              type="submit"
+              id="submit-btn"
+              class="btn btn-primary full-width"
+            >
               Mesaj Gönder
             </button>
           </form>
