@@ -1,21 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
   const mobileToggle = document.getElementById("mobile-toggle");
   const navMenu = document.getElementById("nav-menu");
-  const navLinks = document.querySelectorAll(".nav-link, .nav-btn");
   const navbar = document.getElementById("navbar");
 
   // Mobil Menü Aç/Kapat
-  mobileToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("open");
-    mobileToggle.classList.toggle("active");
-  });
+  if (mobileToggle && navMenu) {
+    mobileToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      mobileToggle.classList.toggle("active");
+    });
+  }
 
-  // Menüdeki linke tıklandığında mobilde menüyü kapat
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      if (navMenu.classList.contains("open")) {
-        navMenu.classList.remove("open");
-        mobileToggle.classList.remove("active");
+  // '#' ile başlayan tüm iç bağlantılar (Menü linkleri, logo, butonlar vb.)
+  const internalLinks = document.querySelectorAll('a[href^="#"]');
+
+  internalLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      const targetId = this.getAttribute("href");
+
+      // Hedef geçersizse veya yalnızca '#' ise işlem yapma
+      if (!targetId || targetId === "#") return;
+
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        e.preventDefault(); // URL'nin sonuna #about vb. eklenmesini engeller
+
+        // Mobil menü açıksa tıklandığında kapat
+        if (navMenu && navMenu.classList.contains("open")) {
+          navMenu.classList.remove("open");
+          mobileToggle.classList.remove("active");
+        }
+
+        // İlgili bölüme yumuşak kaydır
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+        });
       }
     });
   });
@@ -35,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("section[id]");
 
   function scrollActive() {
-    const scrollY = window.pageYOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
 
     sections.forEach((current) => {
       const sectionHeight = current.offsetHeight;
