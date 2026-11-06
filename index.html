@@ -8,6 +8,19 @@
       name="description"
       content="Ferhat Gökçe - Middleware System Specialist & Altyapı Çözümleri Portfolyosu"
     />
+
+    <!-- Statik Güvenlik Politikaları (CSP, Gizlilik ve İzinler) -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://formsubmit.co; img-src 'self' data:; object-src 'none'; base-uri 'self';"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="camera=(), microphone=(), geolocation=(), payment=()"
+    />
+
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -166,7 +179,6 @@
         </div>
 
         <div class="timeline">
-          <!-- Pozisyon 1 -->
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Ocak 2026 - Günümüz</div>
@@ -193,7 +205,6 @@
             </div>
           </div>
 
-          <!-- Pozisyon 2 -->
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Ağustos 2024 - Ocak 2026</div>
@@ -220,7 +231,6 @@
             </div>
           </div>
 
-          <!-- Pozisyon 3 -->
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Haziran 2023 - Haziran 2024</div>
@@ -245,7 +255,6 @@
             </div>
           </div>
 
-          <!-- Pozisyon 4 -->
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Ağustos 2022 - Ağustos 2022</div>
@@ -405,7 +414,6 @@
     <section class="section education" id="education">
       <div class="container">
         <div class="edu-grid">
-          <!-- Eğitim -->
           <div class="edu-column">
             <div class="section-header align-left">
               <span class="section-badge">Akademik</span>
@@ -430,7 +438,6 @@
             </div>
           </div>
 
-          <!-- Sertifikalar -->
           <div class="edu-column">
             <div class="section-header align-left">
               <span class="section-badge">Akreditasyonlar</span>
@@ -572,19 +579,20 @@
             </div>
           </div>
 
-          <!-- İletişim Formu -->
-          <form class="contact-form" id="contact-form">
-            <!-- Form Ayarları & Bot Koruması -->
+          <!-- İletişim Formu (Anti-bot ve XSS korumalı) -->
+          <form class="contact-form" id="contact-form" autocomplete="on">
             <input type="hidden" name="_captcha" value="false" />
             <input
               type="hidden"
               name="_subject"
               value="Portfolyo Web Sitesinden Yeni Mesaj!"
             />
+            <!-- Honeypot Bot Tuzağı -->
             <input
               type="text"
               name="_honey"
-              style="display: none"
+              id="honey-field"
+              style="display: none !important"
               tabindex="-1"
               autocomplete="off"
             />
@@ -596,6 +604,7 @@
                 id="name"
                 name="name"
                 placeholder="Örn: Ahmet Yılmaz"
+                maxlength="70"
                 required
               />
             </div>
@@ -606,6 +615,7 @@
                 id="email"
                 name="email"
                 placeholder="ahmet@example.com"
+                maxlength="100"
                 required
               />
             </div>
@@ -616,6 +626,7 @@
                 name="message"
                 rows="4"
                 placeholder="Konu ve mesajınızı yazın..."
+                maxlength="2000"
                 required
               ></textarea>
             </div>
